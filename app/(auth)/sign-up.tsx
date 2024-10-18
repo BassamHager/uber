@@ -1,7 +1,7 @@
 import { useSignUp } from "@clerk/clerk-expo";
 import { Link, router } from "expo-router";
 import { useState } from "react";
-import { Image, ScrollView, Text, View, Alert } from "react-native";
+import { Alert, Image, ScrollView, Text, View } from "react-native";
 import { ReactNativeModal } from "react-native-modal";
 
 import CustomButton from "@/components/CustomButton";
@@ -20,7 +20,7 @@ const SignUp = () => {
     password: "",
   });
   const [verification, setVerification] = useState({
-    state: "success",
+    state: "default",
     error: "",
     code: "",
   });
@@ -44,7 +44,6 @@ const SignUp = () => {
       Alert.alert("Error", err.errors[0].longMessage);
     }
   };
-
   const onPressVerify = async () => {
     if (!isLoaded) return;
     try {
@@ -82,7 +81,6 @@ const SignUp = () => {
       });
     }
   };
-
   return (
     <ScrollView className="flex-1 bg-white">
       <View className="flex-1 bg-white">
@@ -127,16 +125,15 @@ const SignUp = () => {
             href="/sign-in"
             className="text-lg text-center text-general-200 mt-10"
           >
-            Already have an account?
+            Already have an account?{" "}
             <Text className="text-primary-500">Log In</Text>
           </Link>
         </View>
-
         <ReactNativeModal
           isVisible={verification.state === "pending"}
-          onBackdropPress={() =>
-            setVerification({ ...verification, state: "default" })
-          }
+          // onBackdropPress={() =>
+          //   setVerification({ ...verification, state: "default" })
+          // }
           onModalHide={() => {
             if (verification.state === "success") {
               setShowSuccessModal(true);
@@ -172,7 +169,6 @@ const SignUp = () => {
             />
           </View>
         </ReactNativeModal>
-
         <ReactNativeModal isVisible={showSuccessModal}>
           <View className="bg-white px-7 py-9 rounded-2xl min-h-[300px]">
             <Image
@@ -187,7 +183,7 @@ const SignUp = () => {
             </Text>
             <CustomButton
               title="Browse Home"
-              onPress={() => router.push("/(root)/(tabs)/home")}
+              onPress={() => router.push(`/(root)/(tabs)/home`)}
               className="mt-5"
             />
           </View>
